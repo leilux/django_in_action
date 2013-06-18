@@ -11,5 +11,7 @@ urlpatterns = patterns('',
     (r'product/view/(?P<id>[^/]+)/$', view_product),
     (r'store/$', store_view),
     (r'cart/view/', view_cart),
+    (r'cart/add/(?P<id>[^/]+)/$', add_to_cart),
+    (r'cart/clean/', clean_cart),
     
 )

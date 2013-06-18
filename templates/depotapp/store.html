@@ -20,7 +20,7 @@
         <br/>  
         <div class="row">  
             <div class="span2"><h3>￥{{item.price|floatformat:"2"}}</h3></div>  
-            <div class="span"><a class="btn primary" href="#">加入购物车</a></div>  
+            <div class="span"><a class="btn primary" href="{% url depotapp.views.add_to_cart item.id %}">加入购物车</a></div>  
         </div>  
     </div>  
   

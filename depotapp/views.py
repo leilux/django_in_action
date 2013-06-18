@@ -88,3 +88,17 @@ def view_cart(request):
         request.session['cart'] = cart
     c = RequestContext(request, locals())
     return HttpResponse(t.render(c))
+
+def add_to_cart(request, id):
+    product = Product.objects.get(id=id)
+    cart = request.session.get('cart', None)
+    if not cart:
+        cart = Cart()
+        request.session['cart'] = cart
+    cart.add_product(product)
+    request.session['cart'] = cart
+    return view_cart(request)
+
+def clean_cart(request):
+    request.session['cart'] = Cart()
+    return view_cart(request)
