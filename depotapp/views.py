@@ -77,3 +77,14 @@ def store_view(request):
     t = get_template('depotapp/store.html')
     c = RequestContext(request, locals())
     return HttpResponse(t.render(c))
+
+
+def view_cart(request):
+    cart = request.session.get('cart', None)
+    t = get_template('depotapp/view_cart.html')
+
+    if not cart:
+        cart = Cart()
+        request.session['cart'] = cart
+    c = RequestContext(request, locals())
+    return HttpResponse(t.render(c))
