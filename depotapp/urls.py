@@ -13,5 +13,10 @@ urlpatterns = patterns('',
     (r'cart/view/', view_cart),
     (r'cart/add/(?P<id>[^/]+)/$', add_to_cart),
     (r'cart/clean/', clean_cart),
-    
+# 
+    (r'order/create/$', create_order),
+    (r'order/list/$', list_order ),
+    (r'order/edit/(?P<id>[^/]+)/$', edit_order),
+    (r'order/view/(?P<id>[^/]+)/$', view_order),
+
 )

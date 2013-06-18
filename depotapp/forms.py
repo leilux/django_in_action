@@ -27,3 +27,13 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError('img must %s' % str(suffixs))
         return url
 
+
+class OrderForm(forms.ModelForm):
+	
+    class Meta:
+        model = Order	
+        # exclude = [] # uncomment this line and specify any field to exclude it from the form
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+
