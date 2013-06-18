@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     (r'product/list/$', list_product ),
     (r'product/edit/(?P<id>[^/]+)/$', edit_product),
     (r'product/view/(?P<id>[^/]+)/$', view_product),
+    (r'store/$', store_view),
     
 )

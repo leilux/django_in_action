@@ -63,7 +63,17 @@ def edit_product(request, id):
 
     if form.is_valid():
         form.save()
+        return HttpResponseRedirect('/depotapp/product/list/')
+    else:
+        t=get_template('depotapp/edit_product.html')
+        c=RequestContext(request,locals())
+        return HttpResponse(t.render(c))
 
-    t=get_template('depotapp/edit_product.html')
-    c=RequestContext(request,locals())
+import datetime
+def store_view(request):
+    date = datetime.datetime.now().date()
+    #products = Product.objects.filter(date_available__gt =date).order_by("-date_available")
+    products = Product.objects.order_by('-date_available')
+    t = get_template('depotapp/store.html')
+    c = RequestContext(request, locals())
     return HttpResponse(t.render(c))

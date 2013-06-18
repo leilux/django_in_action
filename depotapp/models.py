@@ -10,4 +10,4 @@ class Product(models.Model):
     # python manage.py dbshell
     # alter table depotapp_product add column date_available date not null default 0;
     # commit;
-    data_available = models.DateField()
+    date_available = models.DateField()
