@@ -103,11 +103,19 @@ def clean_cart(request):
     request.session['cart'] = Cart()
     return view_cart(request)
 
+from django.db import transaction
+
+@transaction.commit_on_success
 def create_order(request):
     form = OrderForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = OrderForm()
+        order = form.save()
+        for item in request.session['cart'].items:
+            item.order = order
+            item.save()
+        clean_cart(request)
+        return store_view(request)
+
 
     t = get_template('depotapp/create_order.html')
     c = RequestContext(request,locals())
