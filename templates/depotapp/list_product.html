@@ -24,19 +24,40 @@
         <p><a class="btn danger" href="#">删除</a></p>  
     </div>  
 </div>  
+
 {% endfor %}  
-{% if list_items.has_previous %}  
-    <a href="?page={{ list_items.previous_page_number }}">上一页</a>  
-{% endif %}  
-  
-<span class="current">  
-    第{{ list_items.number }}页，共{{ list_items.paginator.num_pages }}页  
-</span>  
-  
-{% if list_items.has_next %}  
-        <a href="?page={{ list_items.next_page_number }}">下一页</a>  
-{% endif %}  
-<p>  
-<a href="{% url depotapp.views.create_product %}">新增产品</a>  
-</p>  
+
+ <section>
+<div class="row" style="padding-top:10">  
+	<div class="span3 media-grid">  
+		<p></p>
+	</div>  		
+	
+	<div class="span-two-thirds">  					
+		<div class='pagination'>
+			<ul>
+				{% if list_items.has_previous %}  
+				<li><a href="?page={{ list_items.previous_page_number }}">Prev</a></li>  
+				{% endif %}  	
+					{% for pagen in paginator.page_range %}
+						{% ifequal list_items.number pagen %}
+						<li class="active"><a href="?page={{pagen}}">{{pagen}}</a></li>
+						{% else %}
+						<li ><a href="?page={{pagen}}">{{pagen}}</a></li>		
+						{% endifequal %}
+					{% endfor %}
+				{% if list_items.has_next %}  
+				<li><a href="?page={{ list_items.next_page_number }}">Next</a></li>  
+				{% endif %}  
+			</ul>
+		</div>
+	</div>  
+	
+	<div class='span2' style='align:right'>
+		<p><a class="btn"  style="background-color: #999" href="{% url depotapp.views.create_product %}">新增产品</a></p> 
+	</div>
+</div>  
+</section>
+
+
 {% endblock %}  

@@ -8,6 +8,7 @@ ends = lambda s, suffixs: any(map(lambda x: s.endswith(x), suffixs))
 class ProductForm(forms.ModelForm):
 	
     class Meta:
+        exclude = ['orders',]
         model = Product	
         # exclude = [] # uncomment this line and specify any field to exclude it from the form
 

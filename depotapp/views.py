@@ -25,12 +25,12 @@ def create_product(request):
     return HttpResponse(t.render(c))
 
 
-
 def list_product(request):
   
+    # Product.objects.all()[:10] = SQL Limit 10
+    # Product.objects.all().count()
     list_items = Product.objects.all()
-    paginator = Paginator(list_items ,10)
-
+    paginator = Paginator(list_items ,1)
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -47,13 +47,13 @@ def list_product(request):
     return HttpResponse(t.render(c))
 
 
-
 def view_product(request, id):
     product_instance = Product.objects.get(id = id)
 
     t=get_template('depotapp/view_product.html')
     c=RequestContext(request,locals())
     return HttpResponse(t.render(c))
+
 
 def edit_product(request, id):
 
@@ -68,6 +68,7 @@ def edit_product(request, id):
         t=get_template('depotapp/edit_product.html')
         c=RequestContext(request,locals())
         return HttpResponse(t.render(c))
+
 
 import datetime
 def store_view(request):
@@ -89,6 +90,7 @@ def view_cart(request):
     c = RequestContext(request, locals())
     return HttpResponse(t.render(c))
 
+
 def add_to_cart(request, id):
     product = Product.objects.get(id=id)
     cart = request.session.get('cart', None)
@@ -99,12 +101,15 @@ def add_to_cart(request, id):
     request.session['cart'] = cart
     return view_cart(request)
 
+
 def clean_cart(request):
     request.session['cart'] = Cart()
     return view_cart(request)
 
-from django.db import transaction
 
+from django.db import transaction
+# reference:
+# file:///home/kuroro/learn_space/django/django-docs-1.4-en/topics/db/transactions.html
 @transaction.commit_on_success
 def create_order(request):
     form = OrderForm(request.POST or None)
@@ -116,18 +121,15 @@ def create_order(request):
         clean_cart(request)
         return store_view(request)
 
-
     t = get_template('depotapp/create_order.html')
     c = RequestContext(request,locals())
     return HttpResponse(t.render(c))
-
 
 
 def list_order(request):
   
     list_items = Order.objects.all()
     paginator = Paginator(list_items ,10)
-
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -144,7 +146,6 @@ def list_order(request):
     return HttpResponse(t.render(c))
 
 
-
 def view_order(request, id):
     order_instance = Order.objects.get(id = id)
 
@@ -152,12 +153,12 @@ def view_order(request, id):
     c=RequestContext(request,locals())
     return HttpResponse(t.render(c))
 
+
 def edit_order(request, id):
 
     order_instance = Order.objects.get(id=id)
 
     form = OrderForm(request.POST or None, instance = order_instance)
-
     if form.is_valid():
         form.save()
 

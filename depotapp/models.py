@@ -2,6 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+class Order(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.TextField()
+    email = models.EmailField()
+
+
 class Product(models.Model):
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField()
@@ -11,18 +17,16 @@ class Product(models.Model):
     # alter table depotapp_product add column date_available date not null default 0;
     # commit;
     date_available = models.DateField()
+    orders = models.ManyToManyField(Order, through='LineItem')
 
-class Order(models.Model):
-    name = models.CharField(max_length=50)
-    address = models.TextField()
-    email = models.EmailField()
 
 class LineItem(models.Model):
     product = models.ForeignKey(Product)
     order = models.ForeignKey(Order)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.IntegerField()
-    
+   
+
 class Cart(object):
     def __init__(self):
         self.items = []
