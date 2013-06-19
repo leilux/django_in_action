@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from views import login_view, logout_view
 
 admin.autodiscover()
 
@@ -17,7 +18,9 @@ urlpatterns = patterns('',
     (r'^depotapp/', include('depotapp.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
+    (r'^accounts/login/$', login_view),
+    (r'^accounts/logout/$', logout_view),
 )
 
 #5
