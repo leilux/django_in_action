@@ -156,7 +156,8 @@ LOGGING = {
 import os
 #TEMPLATE_DIRS += (os.path.join(  os.path.dirname(__file__), 'templates') ,)
 pardir_of_here =  os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-
+# template path
 TEMPLATE_DIRS += (os.path.join(pardir_of_here, 'templates'),)
+# static resource path
 STATICFILES_DIRS += (pardir_of_here + STATIC_URL, )
 
