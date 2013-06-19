@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from views import login_view, logout_view
 
-admin.autodiscover()
+#admin.autodiscover()
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin

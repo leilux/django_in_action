@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>login</title>
+    <style type="text/css">
+      label.text {
+        float: left;
+        width: 50;
+        font-size: 14px;
+        margin-right: 10;
+      }
+      #login {
+        position: absolute;
+        width: 270px;
+        height: 200px;
+        padding: 20px;
+        margin: auto;
+        top: 23%;
+        left: 0px;
+        right: 0px;
+        font-size: 14px;
+      }
+      form>div {
+        clear: both;
+      }
+      .input {
+        width: 160px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login">
+      <p style="font-size:2em">Log in</p>
+      <hr>
+      <form action="{% url views.login_view %}" method='POST' onsubmit='return check();'>
+        {% csrf_token %}
+        <input type='hidden' name='next' value="{{ next_url }}">
+        <div><label class='text' >name</label>
+          <input id='name' class='input' type="text" name='username' /></div>
+        <div><label class='text' >passwd</label>
+          <input id='passwd' class='input' type="password" name='password' /></div>
+        <div>
+          <input type="checkbox" style="margin-left: 60px" id='remeber' name='remeber'/>
+          <label for='remeber'>Remeber me(up to 1 hour)</label></div>
+        <div><label class='text'> </label>
+          <input type="submit" style="margin-left: 60px" value='log in'/></div>
+      </form>
+    </div>
+<script type="text/javascript">
+var name = document.getElementById('name');
+var passwd =  document.getElementById('passwd');
+function check() {
+  if (name.value != '' && passwd.value != '') {
+    return true;
+  }
+  return false;
+}
+</script>
+  </body>
+</html>
