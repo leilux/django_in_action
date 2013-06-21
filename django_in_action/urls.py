@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from views import login_view, logout_view
@@ -7,6 +8,7 @@ admin.autodiscover()
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+
 
 urlpatterns = patterns('',
     # Examples:
@@ -21,6 +23,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/login/$', login_view),
     (r'^accounts/logout/$', logout_view),
+#    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
 
 #5

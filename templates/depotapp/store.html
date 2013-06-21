@@ -20,7 +20,7 @@
         <br/>  
         <div class="row">  
             <div class="span2"><h3>￥{{item.price|floatformat:"2"}}</h3></div>  
-            <div class="span"><a class="btn primary" href="{% url depotapp.views.add_to_cart item.id %}">加入购物车</a></div>  
+            <div class="span"><a class="btn primary" productid="{{item.id}}"href='#'>加入购物车</a></div>  
         </div>  
     </div>  
   
@@ -28,4 +28,54 @@
 <div class="page-header">  
 </div>  
 {% endfor %}
+
+<div class="cart" style='position:fixed;right:30px;top:30px'>  
+<h5>我的购物车</h5><br/>  
+    <table id='tabCart' class="condensed-table">  
+      <tbody id='items'>  
+      </tbody>
+      <tfoot>
+        <tr>  
+          <td></td>  
+          <th>总计：</th>  
+          <td id='totalprice'>￥{{cart.total_price|floatformat:"2"}}</td>  
+        </tr>  
+    </tfoot> 
+    </table>  
+      
+    <a class="btn danger" href="{% url depotapp.views.clean_cart %}">清空</a>  
+    <a class="btn success" href="#">结算</a>  
+</div><!--span4-->  
 {% endblock %}
+
+ {% block js %}  
+<!--js from store.html-->  
+<script>  
+    function refreshCart(items){  
+        total = 0;  
+        var tbody = $('tbody#items')[0];  
+        tbody.innerHTML = "";  
+        for(var i=0;i<items.length;i++){  
+            total+=items[i].quantity*items[i].unit_price;  
+            $('table#tabCart').append('<tr><td>'+items[i].quantity+'x</td>'+  
+                '<td>'+items[i].product+'</td><td>￥'+items[i].unit_price+  
+                '</td></tr>');                  
+        }  
+        $('#totalprice')[0].innerHTML = '$'+total;  
+    }  
+</script>  
+{% endblock %}  
+  
+{% block on_ready %}  
+    //store.html on ready  
+    $.getJSON('/depotapp/API/cart/',refreshCart);  
+      
+    $('a.btn[productid]').bind("click",function(){  
+            var product_id=$(this).attr("productid");  
+            //alert(product_id);  
+            $.post("/depotapp/API/cart/",{'product':product_id},refreshCart);  
+            //$.post("/depotapp/API/cart/",{product:product_id},function(){
+            //alert('dsf');});  
+        }  
+    );  
+{% endblock %}  

@@ -3,6 +3,8 @@ from django.conf.urls.defaults import *
 from models import *
 from views import *
 
+#from rest_framework.views import ListOrCreateModelView, InstanceModelView
+
 urlpatterns = patterns('',
 
     (r'^product/create/$', create_product),
@@ -18,5 +20,6 @@ urlpatterns = patterns('',
     (r'order/list/$', list_order ),
     (r'order/edit/(?P<id>[^/]+)/$', edit_order),
     (r'order/view/(?P<id>[^/]+)/$', view_order),
-
+#
+    (r'^API/cart/$', REST4Cart),
 )

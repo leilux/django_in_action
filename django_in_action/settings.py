@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'depotapp',
     'django-groundwork',
+    'rest_framework',
 )
 
 # A sample logging configuration. The only tangible logging
