@@ -169,26 +169,17 @@ def edit_order(request, id):
     return HttpResponse(t.render(c))
 
 
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
 from serializers import LineItemSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-class JSONResponse(HttpResponse):
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        HttpResponse.__init__(self, content, **kwargs)
-
-
-@csrf_exempt
-def REST4Cart(request):
-    if request.method == 'GET':
+class REST4Cart(APIView):
+    def get(self, request, format=None):
         cart = request.session['cart']
         serializers = LineItemSerializer(cart.items)
-        return JSONResponse(serializers.data)
+        return Response(serializers.data)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         productid = request.POST.get('product')
         if not productid: return HttpResponse(status=400)
 
@@ -197,5 +188,4 @@ def REST4Cart(request):
         cart.add_product(product)
         request.session['cart'] = cart
         serializers = LineItemSerializer(cart.items)
-        return JSONResponse(serializers.data)
-
+        return Response(serializers.data)
