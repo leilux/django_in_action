@@ -1,6 +1,6 @@
 {% extends "base.html" %}  
       
-  {% block title %} 产品清单 {% endblock %}  
+{% block title %} {{block.super}}产品清单 {% endblock %}  
     
   {% block content %}   
   <div class="container">     
@@ -16,7 +16,8 @@
     </div>  
     <div class="span-two-thirds">  
         <h4>{{item.title}}</h4>  
-        {{item.description}}  
+        <h5>{{item.date_available|date:"Y-n-j"}}</h5>
+        {{ item.description|truncatewords:"10" }}  
     </div>  
     <div class="span2" style="align:right">  
         <p><a class="btn primary" href="{% url depotapp.views.view_product item.id %}">查看</a></a> </p>  

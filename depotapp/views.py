@@ -58,10 +58,14 @@ def view_product(request, id):
 
 
 def edit_product(request, id):
+    from django.forms.models import model_to_dict
 
     product_instance = Product.objects.get(id=id)
 
-    form = ProductForm(request.POST or None, instance = product_instance)
+    if not request.POST:
+        product_instance.title = product_instance.title.split(', ')
+
+    form = ProductForm(request.POST or None, instance=product_instance)
 
     if form.is_valid():
         form.save()
