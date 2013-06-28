@@ -13,14 +13,23 @@ class ProductForm(forms.ModelForm):
         # exclude = [] # uncomment this line and specify any field to exclude it from the form
 
     #title = forms.CharField(label='chage') 
-    #price = forms.ChoiceField(widget=forms.widgets.RadioSelect, choices=((39, 39),
-    #    (49, 49),
-    #    (29.5, 29.5)))
+    # type: radio
+    price = forms.DecimalField()
+    price.widget = forms.widgets.RadioSelect(
+            choices=((39, 39), (49, 49), (29.5, 29.5)))
+    # type: checkbox
     title = forms.CharField(initial=('一生的性计划',))
-    titledict = dict([('一生的性计划','一生的性计划'),
+    title.widget = forms.widgets.CheckboxSelectMultiple(
+            choices=[('一生的性计划','一生的性计划'),
                       ('黑客与画家','黑客与画家'),
                       ('第七天','第七天')])
-    title.widget = forms.widgets.CheckboxSelectMultiple(choices=titledict.items())
+    # type: select
+    date_available = forms.DateTimeField(initial='2013-6-1')
+    date_available.widget = forms.widgets.Select(
+            choices=(('2012-1-1', '2012-1-1'),
+                     ('2013-6-1', '2013-6-1'),
+                     ('2013-12-1', '2013-12-1')))
+
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
 
@@ -53,4 +62,20 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
+
+
+class UploadForm(forms.Form):
+    # type: file
+    f = forms.FileField()
+
+    def __init__(self, *args, **kwargs):
+        super(UploadForm, self).__init__(*args, **kwargs)
+
+    def clean_f(self):
+        f = self.cleaned_data['f']
+        suffixs = ['.scm', '.png', '.jpg', '.gif', '.txt']
+        if not ends(f.name, suffixs):
+            raise forms.ValidationError(
+                    'you can upload file endswith:%s'%str(suffixs))
+        return f
 

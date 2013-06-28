@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'order/view/(?P<id>[^/]+)/$', view_order),
 #
     (r'^API/cart/$', REST4Cart.as_view()),
+    (r'^upload/$', upload),
 )
 
 from rest_framework.urlpatterns import format_suffix_patterns

@@ -9,8 +9,7 @@
     <form action="" method="POST"> {% csrf_token %}
         {% for field in form%}
         <div>
-            <p></p>
-            <label>{{field.name.title}}:</label>{{field}}{{ field.errors.as_text }}</div>
+            <label>{{field.name|title}}:</label>{{field}}{{ field.errors.as_text }}</div>
         {% endfor %}
     <td colspan="2" align="right"><input type="submit" value="Save"/></td>
 </form>

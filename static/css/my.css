@@ -29,3 +29,12 @@
 	left: 60px;
 	bottom: 50px;
 }
+form div ul {
+	list-style: none;
+	height: 20px;
+}
+div ul li label {
+	text-align: left;
+	width: auto;
+	margin-right: 20px;
+}

@@ -15,6 +15,26 @@ from django.contrib.auth.decorators import login_required
 from models import *
 from forms import *
 
+from mimetypes import guess_extension
+
+def upload(request):
+#http://stackoverflow.com/questions/5871730/need-a-minimal-django-file-upload-example
+#https://docs.djangoproject.com/en/dev/topics/http/file-uploads/
+    form = UploadForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        f = request.FILES['f']
+        extension = guess_extension(f.content_type) or ''
+        fname = f.name if f.name.endswith(extension) else f.name + extension
+        with open('media/'+fname, 'wb') as fd:
+            for chunk in f.chunks():
+                fd.write(chunk)
+        return HttpResponse('upload success')
+    else:
+        t = get_template('upload.html')
+        c = RequestContext(request, locals())
+        return HttpResponse(t.render(c))
+
 
 def create_product(request):
     form = ProductForm(request.POST or None)
@@ -58,19 +78,26 @@ def view_product(request, id):
 
 
 def edit_product(request, id):
-    from django.forms.models import model_to_dict
+    #from django.forms.models import model_to_dict
 
     product_instance = Product.objects.get(id=id)
 
     if not request.POST:
         product_instance.title = product_instance.title.split(', ')
+        d = product_instance.date_available
+        product_instance.date_available = "%s-%s-%s"%(d.year, d.month, d.day)
+
 
     form = ProductForm(request.POST or None, instance=product_instance)
 
     if form.is_valid():
+#        d = form['date_available'].value()
+#        raise
         form.save()
         return HttpResponseRedirect('/depotapp/product/list/')
     else:
+#        d = form['date_available'].value()
+#        raise
         t=get_template('depotapp/edit_product.html')
         c=RequestContext(request,locals())
         return HttpResponse(t.render(c))
